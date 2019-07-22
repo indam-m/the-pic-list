@@ -6,6 +6,10 @@
       v-bind:user="user"
     )
     BaseLoading(v-show="isLoading")
+    .message(
+      v-if="message"
+      v-bind:style="isFailed ? 'color: red' : ''"
+    ) {{ message }}
 </template>
 
 <script>
@@ -20,10 +24,16 @@ export default {
     UsersListCell
   },
   data () {
+    const maxUsers = 20
     return {
       nextPage: 1,
-      maxUsers: 20,
-      isLoading: false
+      maxUsers,
+      isLoading: false,
+      message: '',
+      text: {
+        failed: 'Fetching data failed. Try again',
+        done: `List already reaches ${maxUsers} users`
+      }
     }
   },
   computed: {
@@ -32,7 +42,10 @@ export default {
     ]),
     ...mapGetters([
       'total'
-    ])
+    ]),
+    isFailed () {
+      return this.message === this.text.failed
+    }
   },
   created () {
     this.loadNewUsers()
@@ -46,7 +59,7 @@ export default {
       this.isLoading = true
       this.$store.dispatch('getNewPage', {
         onSuccess: this.onLoadSuccess,
-        onFailed: this.onLoadFailed,
+        onError: this.onLoadFailed,
         page: this.nextPage
       })
     },
@@ -56,16 +69,31 @@ export default {
         this.isLoading = false
       })
     },
-    onLoadFailed () {},
+    onLoadFailed () {
+      this.message = this.text.failed
+      this.isLoading = false
+    },
     onScroll () {
-      const bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-
-      if (!this.isLoading && bottomOfWindow && this.total < this.maxUsers) {
+      const bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= document.documentElement.offsetHeight
+      if (!bottomOfWindow) return
+      if (!this.isLoading && this.total < this.maxUsers) {
+        this.message = ''
         this.loadNewUsers()
-      } else if (this.total >= this.maxUsers) {
+      } else if (this.total >= this.maxUsers && !this.message) {
         this.isLoading = true
+        setTimeout(() => {
+          this.message = this.text.done
+          this.isLoading = false
+        }, 1000)
       }
     }
   }
 }
 </script>
+
+<style>
+.message {
+  font-size: 30px;
+  font-weight: bold;
+}
+</style>

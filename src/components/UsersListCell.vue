@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .user {
   height: 120px;
   background-color: #4473c4;
@@ -49,7 +49,7 @@ export default {
   width: 70%;
   float: left;
 }
-.thumbnail-container img {
+img {
   max-height: 99px;
 }
 .other-fields-container {
@@ -58,10 +58,27 @@ export default {
   height: 100px;
   float: right;
 }
-.other-fields-container .text-info {
+.text-info {
   background-color: #ffffff;
   text-transform: capitalize;
   border: 1px solid black;
   height: 43px;
+
+  /* Internet Explorer */
+  display: -ms-flexbox;
+  -ms-flex-pack: center;
+  -ms-flex-align: center;
+  /* Firefox */
+  display:-moz-box;
+  -moz-box-pack:center;
+  -moz-box-align:center;
+  /* Safari, Opera, and Chrome */
+  display:-webkit-box;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+  /* W3C */
+  display:box;
+  box-pack:center;
+  box-align:center;
 }
 </style>
