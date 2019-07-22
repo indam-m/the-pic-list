@@ -1,33 +1,35 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import VueAxios from 'vue-axios'
 
 Vue.use(Vuex)
+Vue.use(VueAxios, axios)
 
-const getters = {}
+const getters = {
+  total: ({ users }) => users.length
+}
 
 const state = {
-  data: [],
-  total: 0,
+  users: [],
   pageSize: 5
 }
 
 const mutations = {
   append (state, data) {
-    state.data = state.data.concat(data)
-    state.total += data.length
+    state.users = state.users.concat(data)
   }
 }
 
 const actions = {
   getNewPage ({ state, commit }, payload) {
-    axios.get('https://randomuser.me/api')
-      .params({
+    axios.get('https://randomuser.me/api', {
+      params: {
         page: payload.page || 1,
         results: state.pageSize
-      })
+      }})
       .then((data) => {
-        commit('append', data.results)
+        commit('append', data.data.results)
         if (payload.onSuccess) {
           payload.onSuccess(data)
         }
