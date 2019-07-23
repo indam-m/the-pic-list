@@ -1,20 +1,19 @@
 <template lang="pug">
   .user
-    .row
-      .thumbnail-container
-        img(
-          v-bind:src="user.picture.large"
-        )
-      .other-fields-container
-        .text-info(style="margin-bottom: 10px;") {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
-        .text-info Registered Date: {{ registeredDate }}
+    .thumbnail-container.column
+      img(
+        v-bind:src="user.picture.large"
+      )
+    .other-fields-container.column
+      .text-info(style="margin-bottom: 10px;") {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
+      .text-info Registered Date: {{ registeredDate }}
 </template>
 
 <script>
 import dateFormat from 'dateformat'
 
 export default {
-  name: 'UsersListCell',
+  name: 'UserListCell',
   props: {
     user: {
       required: true,
@@ -33,36 +32,28 @@ export default {
 .user {
   height: 120px;
   background-color: #4473c4;
-  border: 1px solid black;
   margin-bottom: 70px;
+  position: relative;
 }
-.row {
+.column {
+  position: absolute;
   margin: 10px;
-}
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-.thumbnail-container {
-  text-align: left;
-  width: 70%;
-  float: left;
+  height: 100px;
 }
 img {
-  max-height: 99px;
+  max-height: 100%;
 }
 .other-fields-container {
   vertical-align: middle;
   width: 27.5%;
-  height: 100px;
-  float: right;
+  right: 0;
 }
 .text-info {
   background-color: #ffffff;
   text-transform: capitalize;
   border: 1px solid black;
   height: 43px;
+  color: #000;
 
   /* Internet Explorer */
   display: -ms-flexbox;

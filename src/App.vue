@@ -1,13 +1,20 @@
 <template lang="pug">
   #app
-    h1 Welcome!
-    router-view
+    app-header#header
+    router-view#view
+    app-footer#footer
 </template>
 
 <script>
+import AppHeader from './components/AppHeader'
+import AppFooter from './components/AppFooter'
 
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    AppHeader,
+    AppFooter
+  }
 }
 </script>
 
@@ -18,10 +25,19 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-  min-height: 110vh;
+  right: 0;
+  left: 0;
 }
-h1 {
-  margin-bottom: 60px;
+#header, #view, #footer {
+  position: absolute;
+}
+#header, #footer {
+  background-color: #E0E0E0;
+}
+#view {
+  width: 100%;
+  top: 87px;
+  bottom: 60px;
+  overflow: scroll;
 }
 </style>

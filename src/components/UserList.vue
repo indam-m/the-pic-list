@@ -1,27 +1,28 @@
 <template lang="pug">
-  .main
-    UsersListCell(
-      v-for="user, index in users"
-      v-bind:key="index"
-      v-bind:user="user"
-    )
-    BaseLoading(v-show="isLoading")
-    .message(
-      v-if="message"
-      v-bind:style="isFailed ? 'color: red' : ''"
-    ) {{ message }}
+  div(v-on:scroll="onScroll")
+    .main
+      UserListCell(
+        v-for="user, index in users"
+        v-bind:key="index"
+        v-bind:user="user"
+      )
+      BaseLoading(v-show="isLoading")
+      .message(
+        v-if="message"
+        v-bind:style="isFailed ? 'color: red' : ''"
+      ) {{ message }}
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 import BaseLoading from './BaseLoading'
-import UsersListCell from './UsersListCell'
+import UserListCell from './UserListCell'
 
 export default {
-  name: 'UsersList',
+  name: 'UserList',
   components: {
     BaseLoading,
-    UsersListCell
+    UserListCell
   },
   data () {
     const maxUsers = 20
@@ -49,10 +50,6 @@ export default {
   },
   created () {
     this.loadNewUsers()
-    window.addEventListener('scroll', this.onScroll)
-  },
-  beforeDestroy () {
-    window.removeEventListener('scroll', this.onScroll)
   },
   methods: {
     loadNewUsers () {
@@ -74,8 +71,9 @@ export default {
       this.isLoading = false
     },
     onScroll () {
-      const bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight >= document.documentElement.offsetHeight
-      if (!bottomOfWindow) return
+      const el = this.$el
+      const bottomOfList = el.scrollTop + el.clientHeight >= el.scrollHeight
+      if (!bottomOfList) return
       if (!this.isLoading && this.total < this.maxUsers) {
         this.message = ''
         this.loadNewUsers()
@@ -92,8 +90,13 @@ export default {
 </script>
 
 <style>
+.main {
+  min-height: 100vh;
+  margin-top: 70px;
+}
 .message {
   font-size: 30px;
   font-weight: bold;
+  height: 90px;
 }
 </style>
