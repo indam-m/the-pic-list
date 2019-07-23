@@ -26,7 +26,8 @@ const actions = {
     axios.get('https://randomuser.me/api', {
       params: {
         page: payload.page || 1,
-        results: state.pageSize
+        results: state.pageSize,
+        seed: 'abc'
       }})
       .then((data) => {
         commit('append', data.data.results)

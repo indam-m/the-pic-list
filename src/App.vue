@@ -1,16 +1,13 @@
 <template lang="pug">
   #app
-    UsersList
+    h1 Welcome!
+    router-view
 </template>
 
 <script>
-import UsersList from './components/UsersList'
 
 export default {
-  name: 'App',
-  components: {
-    UsersList
-  }
+  name: 'App'
 }
 </script>
 
@@ -22,6 +19,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  min-height: 120vh;
+  min-height: 110vh;
+}
+h1 {
+  margin-bottom: 60px;
 }
 </style>
