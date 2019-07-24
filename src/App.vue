@@ -38,6 +38,6 @@ export default {
   width: 100%;
   top: 87px;
   bottom: 60px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 </style>
