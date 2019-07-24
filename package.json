@@ -1,7 +1,7 @@
 {
-  "name": "qoala-web",
+  "name": "userlist-web",
   "version": "1.0.0",
-  "description": "Qoala Web Test - User List",
+  "description": "User List Web Test",
   "author": "indam-m <indam.muhammad@gmail.com>",
   "private": true,
   "scripts": {
